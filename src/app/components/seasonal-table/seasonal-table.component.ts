@@ -24,37 +24,42 @@ import { ApiService } from '../../services/api.service';
 export class SeasonalTableComponent implements OnInit {
   public chart = new Chart(new XYGrid());
   public seriesSet: IChartSeries<ILineAccessors>[];
-  apiDataS: any;
+  public apiDataS: any;
   public newHourArray: any = [];
   public newWeekArray: any = [];
+  public trendSlop: number;
+  public trendPoint: number;
+  public seasonalHour: any;
+  public seasonalWeek: any;
 
   constructor(private api: ApiService) {
+
     // get call for the Seasonal data
     this.api.getSeasonal().subscribe(data => {
       this.apiDataS = data;
-      console.log(this.apiDataS);
       return this.sortData();
     });
 
   }
 
   ngOnInit() {
-
   }
 
   sortData() {
-    const seasonalHour = this.apiDataS.hourlySeason;
-    const seasonalWeek = this.apiDataS.weeklySeason;
+    this.seasonalHour = this.apiDataS.hourlySeason;
+    this.seasonalWeek = this.apiDataS.weeklySeason;
+    this.trendSlop = this.apiDataS.trendSlop;
+    this.trendPoint = this.apiDataS.trendPoint;
 
 // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i < seasonalHour.length; i++) {
-      this.newHourArray.push({ x: i, y: seasonalHour[i]}, );
+    for (let i = 0; i < this.seasonalHour.length; i++) {
+      this.newHourArray.push({ x: i, y: this.seasonalHour[i]}, );
     }
-    for (let i = 0; i < seasonalWeek.length; i++) {
-      this.newWeekArray.push({ x: i, y: seasonalWeek[i]}, );
+    for (let i = 0; i < this.seasonalWeek.length; i++) {
+      this.newWeekArray.push({ x: i, y: this.seasonalWeek[i]}, );
     }
 
-    // console.log(this.newArray);
+    // console.log(this.trendPoint);
 
     this.seriesSet = [{
       id: `${this.apiDataS.entityID}`,
@@ -70,5 +75,6 @@ export class SeasonalTableComponent implements OnInit {
 
     this.chart.update(this.seriesSet);
 
-}
+  }
+
 }
