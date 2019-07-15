@@ -20,7 +20,6 @@ export class ApiService {
 
     // Get TimeSeries Request
     getTS(): Observable<any> {
-      console.log('Here in getDataService: TimeSeries');
       return this.httpClient.get(this.timeseriesUrl);
     }
       // Get Seasonal Request
