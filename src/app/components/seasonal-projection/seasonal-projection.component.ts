@@ -12,6 +12,8 @@ import {
   XYGrid
 } from '@solarwinds/nova-bits';
 import moment from 'moment/moment';
+import { ApiService } from '../../services/api.service';
+import { SeasonalTableComponent } from '../seasonal-table/seasonal-table.component';
 
 @Component({
   selector: 'app-seasonal-projection',
@@ -20,11 +22,22 @@ import moment from 'moment/moment';
 })
 export class SeasonalProjectionComponent implements OnInit {
 
-  constructor() { }
+  public apiDataS: any;
+
+  constructor(private api: ApiService) {
+
+    // get call for the Seasonal data
+    this.api.getSeasonal().subscribe(data => {
+      this.apiDataS = data;
+      return getData();
+    });
+
+  }
 
   public chart = new Chart(new XYGrid());
-
   public chartAssist: ChartAssist = new ChartAssist(this.chart);
+  public data: SeasonalTableComponent;
+
 
   public ngOnInit() {
       // providing chartAssist colors and markers to LineAccessors will share them with the line chart
@@ -51,9 +64,10 @@ export class SeasonalProjectionComponent implements OnInit {
 
 /* Chart data */
 function getData() {
-    const format = 'YYYY-MM-DDTHH:mm:ssZ';
+  const format = 'YYYY-MM-DDTHH:mm:ssZ';
 
-    return [
+
+  return [
         {
             id: 'series-1',
             name: 'Series 1',
