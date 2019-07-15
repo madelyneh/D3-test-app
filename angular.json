@@ -28,7 +28,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "./node_modules/@solarwinds/nova-bits/bundles/css/styles.css",
+              "./node_modules/@solarwinds/fusion-platform/css/orion_ui.css",
+              "./node_modules/@solarwinds/fusion-layout/css/orion_ui.css"
             ],
             "scripts": []
           },
