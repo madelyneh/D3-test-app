@@ -10,12 +10,14 @@ import { NuiModule } from '@solarwinds/nova-bits';
 import { FdkLayoutModule } from '@solarwinds/fusion-layout';
 import { TimeSeriesTableComponent } from './components/time-series-table/time-series-table.component';
 import { SeasonalTableComponent } from './components/seasonal-table/seasonal-table.component';
+import { SeasonalProjectionComponent } from './components/seasonal-projection/seasonal-projection.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TimeSeriesTableComponent,
-    SeasonalTableComponent
+    SeasonalTableComponent,
+    SeasonalProjectionComponent
   ],
   imports: [
     BrowserModule,
