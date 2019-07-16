@@ -1,4 +1,10 @@
 <div>
-  <h1>TimeSeries</h1>
-  <nui-chart class="d-flex" [chart]="chart"></nui-chart>
+  <h1 class="item-header" >
+      <a href="#" target="_blank" class="item-title" tooltip="processed">TimeSeries</a>
+  </h1>
+
+  <div class="chart-wrapper">
+    <nui-chart class="d-flex" [chart]="chart"></nui-chart>
+  </div>
+  <!-- <hr class="chart-divider xui-divider" ng-if="!$last"> -->
 </div>

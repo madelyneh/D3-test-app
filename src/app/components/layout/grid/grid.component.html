@@ -1,0 +1,69 @@
+<div>
+  <nui-sheet-group sheetsType="separate" direction="row" [isResizable]="true" resizeUnit="px" style="height: auto">
+
+      <nui-sheet-group sheetsType="separate" direction="column" [isResizable]="true" resizeUnit="%">
+
+          <nui-sheet-group sheetsType="separate">
+              <nui-sheet [fitContent]="true">
+                  <nui-card>
+                      <div class="nui-demo-nui-card__block-element">
+                          <app-all-alerts-table></app-all-alerts-table>
+                      </div>
+                  </nui-card>
+              </nui-sheet>
+          </nui-sheet-group>
+
+          <nui-sheet-group sheetsType="separate">
+              <nui-sheet [fitContent]="true">
+                  <nui-card>
+                      <div class="nui-demo-nui-card__block-element">
+                          <app-seasonal-projection></app-seasonal-projection>
+                      </div>
+                  </nui-card>
+              </nui-sheet>
+          </nui-sheet-group>
+
+
+      </nui-sheet-group>
+
+<!-- Seasonal and TimeSeries charts -->
+      <nui-sheet-group sheetsType="separate" direction="column" [isResizable]="true" resizeUnit="%">
+
+          <nui-sheet [fitContent]="true">
+              <nui-card>
+                  <div class="nui-demo-nui-card__block-element">
+                      <app-time-series-table></app-time-series-table>
+                  </div>
+              </nui-card>
+          </nui-sheet>
+
+          <nui-sheet [fitContent]="true">
+              <nui-card>
+                  <div class="nui-demo-nui-card__block-element">
+                      <app-seasonal-table></app-seasonal-table>
+                  </div>
+              </nui-card>
+          </nui-sheet>
+
+      </nui-sheet-group>
+
+  </nui-sheet-group>
+
+  <!-- <nui-sheet-group sheetsType="separate" direction="row" [isResizable]="true" resizeUnit="px" style="height: 500px">
+
+      <nui-sheet-group sheetsType="separate" direction="column" [isResizable]="true" resizeUnit="%">
+
+          <nui-sheet-group sheetsType="separate">
+              <nui-sheet [fitContent]="true">
+                  <nui-card>
+                      <div class="nui-demo-nui-card__block-element">
+                          <app-seasonal-projection></app-seasonal-projection>
+                      </div>
+                  </nui-card>
+              </nui-sheet>
+          </nui-sheet-group>
+
+      </nui-sheet-group>
+
+  </nui-sheet-group> -->
+</div>

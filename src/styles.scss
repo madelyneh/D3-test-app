@@ -1,1 +1,52 @@
 /* You can add global styles to this file, and also import other style files */
+
+// ****Elements/Tags****
+.h1 {
+  margin-top: none !important;
+}
+
+
+// Multiple Elements
+
+
+// ****Class****
+.item-wrapper {
+  margin-bottom: 10px;
+  background-color: #ffffff;
+  border:  1px solid white;
+  box-shadow: 0 1px 5px 0 #b9b9b9;
+  width: fit-content;
+}
+
+.chart-wrapper {
+  padding: .5rem;
+}
+
+.small-item-wrapper {
+   width: 35rem;
+}
+
+.item-header {
+  width: 100%;
+  height: auto;
+  border-bottom: solid 1px #D5D5D5;
+  margin: 0 !important;
+}
+
+.item-title {
+  color: black !important;
+  padding: .5rem;
+  position: relative;
+  display: block;
+}
+
+
+// ****ID****
+
+#projection-wrapper {
+  min-width: 45rem;
+ }
+
+#page-title {
+  margin-top: .8rem !important;
+}
