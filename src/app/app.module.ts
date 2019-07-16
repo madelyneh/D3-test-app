@@ -11,13 +11,17 @@ import { FdkLayoutModule } from '@solarwinds/fusion-layout';
 import { TimeSeriesTableComponent } from './components/time-series-table/time-series-table.component';
 import { SeasonalTableComponent } from './components/seasonal-table/seasonal-table.component';
 import { SeasonalProjectionComponent } from './components/seasonal-projection/seasonal-projection.component';
+import { AllAlertsTableComponent } from './components/all-alerts-table/all-alerts-table.component';
+import { GridComponent } from './components/layout/grid/grid.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TimeSeriesTableComponent,
     SeasonalTableComponent,
-    SeasonalProjectionComponent
+    SeasonalProjectionComponent,
+    AllAlertsTableComponent,
+    GridComponent
   ],
   imports: [
     BrowserModule,
