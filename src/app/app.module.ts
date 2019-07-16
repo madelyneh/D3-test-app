@@ -1,4 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { NgModule, TRANSLATIONS, MissingTranslationStrategy, TRANSLATIONS_FORMAT } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -30,6 +32,7 @@ import { GridComponent } from './components/layout/grid/grid.component';
     FdkLayoutModule,
     FormsModule,
     HttpClientModule,
+    BrowserAnimationsModule
   ],
   providers: [
     { provide: TRANSLATIONS_FORMAT, useValue: 'xlf' },

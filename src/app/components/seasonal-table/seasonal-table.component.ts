@@ -59,7 +59,7 @@ export class SeasonalTableComponent implements OnInit {
       this.newWeekArray.push({ x: i, y: this.seasonalWeek[i]}, );
     }
 
-    // console.log(this.trendPoint);
+    console.log(this.apiDataS);
 
     this.seriesSet = [{
       id: `${this.apiDataS.entityID}`,
