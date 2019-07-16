@@ -29,14 +29,15 @@ export class SeasonalProjectionComponent implements OnInit {
     // get call for the Seasonal data
     this.api.getSeasonal().subscribe(data => {
       this.apiDataS = data;
-      return getData();
+      console.log(data);
+      return getData(this.apiDataS);
     });
 
   }
 
   public chart = new Chart(new XYGrid());
   public chartAssist: ChartAssist = new ChartAssist(this.chart);
-  public data: SeasonalTableComponent;
+  // public data: SeasonalTableComponent;
 
 
   public ngOnInit() {
@@ -48,7 +49,7 @@ export class SeasonalProjectionComponent implements OnInit {
           y: new LinearScale(),
       };
 
-      const seriesSet: IChartSeries<ILineAccessors>[] = getData().map(d => ({
+      const seriesSet: IChartSeries<ILineAccessors>[] = getData(this.apiDataS).map(d => ({
           ...d,
           accessors,
           renderer,
@@ -56,21 +57,22 @@ export class SeasonalProjectionComponent implements OnInit {
       }));
 
       // chart assist needs to be used to update data
-      this.chartAssist.update(seriesSet);
+      // this.chartAssist.update(seriesSet);
   }
 
 
 }
-
+// TODO Pick back up here. Trying to give the data to the getData() function. It's failing because the calls are happening the same time.
 /* Chart data */
-function getData() {
+function getData(data) {
   const format = 'YYYY-MM-DDTHH:mm:ssZ';
-
+  const apiData = data;
+  console.log("TCL: getData -> apiData", apiData);
 
   return [
         {
-            id: 'series-1',
-            name: 'Series 1',
+            id: `${apiData.seasonalID}`,
+            name: `Seasonal ID: ${apiData.seasonalID}`,
             data: [
                 { x: moment('2016-12-25T15:14:29.909Z', format), y: 30 },
                 { x: moment('2016-12-27T15:14:29.909Z', format), y: 95 },
