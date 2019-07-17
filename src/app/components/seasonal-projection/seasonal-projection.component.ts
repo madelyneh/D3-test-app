@@ -57,7 +57,7 @@ export class SeasonalProjectionComponent implements OnInit {
       }));
 
       // chart assist needs to be used to update data
-      // this.chartAssist.update(seriesSet);
+      this.chartAssist.update(seriesSet);
   }
 
 
@@ -68,11 +68,12 @@ function getData(data) {
   const format = 'YYYY-MM-DDTHH:mm:ssZ';
   const apiData = data;
   console.log("TCL: getData -> apiData", apiData);
+  // ${apiData.seasonalID}
 
   return [
         {
-            id: `${apiData.seasonalID}`,
-            name: `Seasonal ID: ${apiData.seasonalID}`,
+            id: `seasonal 1`,
+            name: `Seasonal ID: ?`,
             data: [
                 { x: moment('2016-12-25T15:14:29.909Z', format), y: 30 },
                 { x: moment('2016-12-27T15:14:29.909Z', format), y: 95 },
