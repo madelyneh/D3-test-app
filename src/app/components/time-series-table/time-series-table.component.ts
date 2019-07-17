@@ -30,6 +30,10 @@ export class TimeSeriesTableComponent implements OnInit {
     // get call for the TimeSeries data
     this.api.getTS().subscribe(data => {
       this.apiDataTS = data;
+      console.log('•••: ------------------------------------------------------------------------------');
+      console.log('•••: TimeSeriesTableComponent -> constructor -> this.apiDataTS', this.apiDataTS);
+      console.log('•••: ------------------------------------------------------------------------------');
+      
       return this.sortData();
     });
 

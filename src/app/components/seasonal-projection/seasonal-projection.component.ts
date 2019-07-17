@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output  } from '@angular/core';
 import {
   Chart,
   ChartAssist,
@@ -21,77 +21,89 @@ import { SeasonalTableComponent } from '../seasonal-table/seasonal-table.compone
   styleUrls: ['./seasonal-projection.component.scss']
 })
 export class SeasonalProjectionComponent implements OnInit {
+  public chart = new Chart(new XYGrid());
+  public chartAssist: ChartAssist = new ChartAssist(this.chart);
+  title: string;
 
-  public apiDataS: any;
+  @Input() apiDataS: any;
 
-  constructor(private api: ApiService) {
+  constructor(private api: ApiService) {}
 
-    // get call for the Seasonal data
+  public ngOnInit() {
+
     this.api.getSeasonal().subscribe(data => {
       this.apiDataS = data;
-      console.log(data);
-      return getData(this.apiDataS);
+      // console.log(`In ngOnInit w/ the api call. Data: ${JSON.stringify(this.apiDataS)}`);
+      return this.loadChart();
     });
 
   }
 
-  public chart = new Chart(new XYGrid());
-  public chartAssist: ChartAssist = new ChartAssist(this.chart);
-  // public data: SeasonalTableComponent;
+  loadChart() {
 
-
-  public ngOnInit() {
-      // providing chartAssist colors and markers to LineAccessors will share them with the line chart
-      const accessors = new LineAccessors(this.chartAssist.palette.standardColors, this.chartAssist.markers);
-      const renderer = new LineRenderer();
-      const scales: Scales = {
+    // providing chartAssist colors and markers to LineAccessors will share them with the line chart
+    const accessors = new LineAccessors(this.chartAssist.palette.standardColors, this.chartAssist.markers);
+    const renderer = new LineRenderer();
+    const scales: Scales = {
           x: new TimeScale(),
           y: new LinearScale(),
-      };
-
-      const seriesSet: IChartSeries<ILineAccessors>[] = getData(this.apiDataS).map(d => ({
+    };
+    const seriesSet: IChartSeries<ILineAccessors>[] = getData(this.apiDataS).map(d => ({
           ...d,
           accessors,
           renderer,
           scales,
-      }));
+    }));
 
       // chart assist needs to be used to update data
-      this.chartAssist.update(seriesSet);
+    this.chartAssist.update(seriesSet);
+  }
+
+  onSubmit() {
+    const userInput = this.title;
+    console.log(userInput);
   }
 
 
 }
-// TODO Pick back up here. Trying to give the data to the getData() function. It's failing because the calls are happening the same time.
+
 /* Chart data */
-function getData(data) {
+function getData(api) {
   const format = 'YYYY-MM-DDTHH:mm:ssZ';
-  const apiData = data;
-  console.log("TCL: getData -> apiData", apiData);
-  // ${apiData.seasonalID}
+  const seasonalData: any = api;
+  const newHourArray: any = [];
+  const newWeekArray: any = [];
+  const trendArray: any = [];
+  const trendSlop: number = seasonalData.trendSlop;
+  const trendPoint: number = seasonalData.trendPoint;
+// FIXME make the projection line the same size as the other line
+
+// tslint:disable-next-line: prefer-for-of
+  for (let i = 0; i < seasonalData.weeklySeason.length; i++) {
+    trendArray.push({
+      x: ((seasonalData.weeklySeason[i] / trendSlop) - trendPoint),
+      y: (seasonalData.weeklySeason[i]),
+    });
+    }
+  for (let i = 0; i < seasonalData.weeklySeason.length; i++) {
+      newWeekArray.push({ x: Number(i), y: Number(seasonalData.weeklySeason[i])} );
+  }
+  console.log('•••: --------------------------------------');
+  console.log('•••: getData -> trendArray', trendArray);
+  console.log('•••: --------------------------------------');
+
+
 
   return [
         {
-            id: `seasonal 1`,
-            name: `Seasonal ID: ?`,
-            data: [
-                { x: moment('2016-12-25T15:14:29.909Z', format), y: 30 },
-                { x: moment('2016-12-27T15:14:29.909Z', format), y: 95 },
-                { x: moment('2016-12-29T15:14:29.909Z', format), y: 15 },
-                { x: moment('2016-12-31T15:14:29.909Z', format), y: 60 },
-                { x: moment('2017-01-03T15:14:29.909Z', format), y: 35 },
-            ],
+            id: `${seasonalData.seasonalityID}`,
+            name: `Seasonal ID (Week): ${seasonalData.seasonalityID}`,
+            data: newWeekArray,
         },
         {
-            id: 'series-2',
-            name: 'Series 2',
-            data: [
-                { x: moment('2016-12-25T15:14:29.909Z', format), y: 60 },
-                { x: moment('2016-12-27T15:14:29.909Z', format), y: 40 },
-                { x: moment('2016-12-29T15:14:29.909Z', format), y: 70 },
-                { x: moment('2016-12-31T15:14:29.909Z', format), y: 45 },
-                { x: moment('2017-01-03T15:14:29.909Z', format), y: 90 },
-            ],
+            id: ` Trend: ${seasonalData.seasonalityID}`,
+            name: `Seasonal Trend Slope`,
+            data: trendArray,
         },
     ];
 }
