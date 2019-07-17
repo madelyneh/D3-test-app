@@ -15,7 +15,6 @@ export class ApiService {
   timeseriesUrl = 'https://localhost:44395/api/timeseries/49';
   seasonalUrl = 'https://localhost:44395/api/seasonal/5';
 
-
   constructor(private httpClient: HttpClient) { }
 
     // Get TimeSeries Request

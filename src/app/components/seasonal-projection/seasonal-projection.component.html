@@ -4,6 +4,14 @@
     <a href="#" target="_blank" class="item-title" tooltip="processed">Seasonal Projection</a>
   </h1>
   <div class="chart-wrapper">
+
+    <div class="search-wrapper">
+      <form  class="form" (ngSubmit)="onSubmit()">
+        <input type="text" name="title" [(ngModel)]="title" placeholder="Date">
+        <input type="submit" value="Search" class="btn">
+      </form>
+    </div>
+
     <div class="nui-chart-layout">
       <div class="axis-label-left nui-text-small"><strong i18n>Left axis label</strong></div>
       <div class="axis-label-right nui-text-small"><strong i18n>Right axis label</strong></div>
