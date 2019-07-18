@@ -32,7 +32,7 @@ export class SeasonalProjectionComponent implements OnInit {
 
   public ngOnInit() {
 
-    this.api.getSeasonal().subscribe(data => {
+    this.api.getSeasonal(5).subscribe(data => {
       this.apiDataS = data;
       // console.log(`In ngOnInit w/ the api call. Data: ${JSON.stringify(this.apiDataS)}`);
       return this.setChart(this.apiDataS);
@@ -64,6 +64,15 @@ export class SeasonalProjectionComponent implements OnInit {
   onSubmit() {
     const userInput = this.title;
     console.log(userInput);
+
+    this.api.getSeasonal(Number(userInput)).subscribe(data => {
+      this.apiDataS = data;
+      console.log('•••: ----------------------------------------------------------------------------');
+      console.log('•••: SeasonalProjectionComponent -> onSubmit -> this.apiDataS', this.apiDataS);
+      console.log('•••: ----------------------------------------------------------------------------');
+      return this.setChart(this.apiDataS);
+
+    });
   }
 
 }
@@ -107,11 +116,11 @@ function loadChart(api: Seasonal) {
         name: `Seasonal ID (Week): ${apiData.seasonalityID}`,
         data: weekArray,
     },
-    {
-      id: `Trend`,
-      name: `Seasonal Trend Line`,
-      data: trendArray,
-    },
+    // {
+    //   id: `Trend`,
+    //   name: `Seasonal Trend Line`,
+    //   data: trendArray,
+    // },
 
 
   ];
