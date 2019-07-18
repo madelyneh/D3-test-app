@@ -35,10 +35,10 @@ export class SeasonalTableComponent implements OnInit {
   constructor(private api: ApiService) {
 
     // get call for the Seasonal data
-    this.api.getSeasonal().subscribe(data => {
-      this.apiDataS = data;
-      return this.sortData();
-    });
+    // this.api.getSeasonal().subscribe(data => {
+    //   this.apiDataS = data;
+    //   return this.sortData();
+    // });
 
   }
 
