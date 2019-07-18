@@ -1,4 +1,11 @@
 export interface DataModel {
-  letter: string;
-  frequency: number;
+  chartData: {
+    x: number,
+    y: number
+  };
+  anotherLayout: [{
+    name: string,
+    id: number,
+    value: Array<number>
+  }];
 }
