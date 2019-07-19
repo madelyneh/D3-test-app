@@ -18,7 +18,7 @@ export class FillerComponent implements OnInit {
   constructor(public actions: ActionsService) { }
 
   ngOnInit() {
-    // this.actions.sortData(this.input).subscribe(data => {
+    // this.actions.sortData(this.input).subscribe(data =>
     //   this.filteredArray = data;
     //   console.log(this.filteredArray);
     // });
@@ -33,7 +33,7 @@ export class FillerComponent implements OnInit {
   getInfo(input) {
     console.log(input);
 
-    console.log(this.actions.sortSeasonalData(input));
+    console.log(this.actions.seasonalProjection(input));
   }
 
 }
