@@ -15,6 +15,8 @@ import moment from 'moment/moment';
 import { ApiService } from '../../services/api.service';
 import { Seasonal } from '../../models/Seasonal';
 import { DataModel } from '../../models/DataModel';
+import { ActionsService } from '../../services/actions.service';
+
 
 @Component({
   selector: 'app-seasonal-projection',
@@ -67,9 +69,9 @@ export class SeasonalProjectionComponent implements OnInit {
 
     this.api.getSeasonal(Number(userInput)).subscribe(data => {
       this.apiDataS = data;
-      console.log('•••: ----------------------------------------------------------------------------');
-      console.log('•••: SeasonalProjectionComponent -> onSubmit -> this.apiDataS', this.apiDataS);
-      console.log('•••: ----------------------------------------------------------------------------');
+      // console.log('•••: ----------------------------------------------------------------------------');
+      // console.log('•••: SeasonalProjectionComponent -> onSubmit -> this.apiDataS', this.apiDataS);
+      // console.log('•••: ----------------------------------------------------------------------------');
       return this.setChart(this.apiDataS);
 
     });
