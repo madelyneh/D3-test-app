@@ -92,9 +92,9 @@ function loadChart(apiTS: TimeSeries, apiSeasonal: Seasonal) {
       y: valueDataTS[i]
     });
   }
-  console.log('•••: ------------------------------------');
-  console.log('•••: loadChart -> newArray', newArray);
-  console.log('•••: ------------------------------------');
+  // console.log('•••: ------------------------------------');
+  // console.log('•••: loadChart -> newArray', newArray);
+  // console.log('•••: ------------------------------------');
 
   return [
     {
