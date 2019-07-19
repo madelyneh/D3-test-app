@@ -53,9 +53,16 @@ export class ActionsService {
   }
 
   seasonalProjection(data) {
-    const jsonData = data;
-    const week = jsonData.weeklySeason;
-    const hour = jsonData.hourlySeason;
+    const jsonData: Seasonal = data;
+    const week: any[] = jsonData.weeklySeason;
+    const hour: any[] = jsonData.hourlySeason;
+    const trendSlope: number = jsonData.trendSlop;
+    const trendPoint: number = jsonData.trendPoint;
+    const Y: any = [];
+
+    // for (let i = 0; i < 300; i ++)  {
+
+    // }
 
 
 
