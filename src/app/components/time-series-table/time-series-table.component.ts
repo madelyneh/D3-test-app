@@ -92,9 +92,7 @@ function loadChart(apiTS: TimeSeries, apiSeasonal: Seasonal) {
       y: valueDataTS[i]
     });
   }
-  // console.log('•••: ------------------------------------');
-  // console.log('•••: loadChart -> newArray', newArray);
-  // console.log('•••: ------------------------------------');
+
 
   return [
     {
@@ -107,7 +105,6 @@ function loadChart(apiTS: TimeSeries, apiSeasonal: Seasonal) {
     //   name: `Seasonal Trend Line`,
     //   data: getSeasonal(apiDataS),
     // },
-
 
   ];
 

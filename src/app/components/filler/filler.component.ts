@@ -4,6 +4,7 @@ import { HttpErrorResponse, HttpHeaders, HttpClient, HttpResponse } from '@angul
 import { Observable, throwError } from 'rxjs';
 import { TimeSeries } from '../../models/TimeSeries';
 import { Seasonal } from '../../models/Seasonal';
+import { AllData } from '../../models/AllData';
 
 @Component({
   selector: 'app-filler',
@@ -11,38 +12,53 @@ import { Seasonal } from '../../models/Seasonal';
   styleUrls: ['./filler.component.scss']
 })
 export class FillerComponent implements OnInit {
-  input = '5';
+  input: any = 5;
   seasonalData: Seasonal;
   timeSeriesData: TimeSeries;
   filteredArray: any[];
-  bothData: any;
+  allData: AllData = {
+    TimeSeries: this.timeSeriesData,
+    Seasonal: this.seasonalData
+  };
 
   constructor(public actions: ActionsService) {
   }
 
   ngOnInit() {
 
-    this.actions.apiGetTimeSeries(Number(this.input)).subscribe(data => {
-      this.timeSeriesData = data;
+    this.actions.apiGetTimeSeries(this.input).subscribe(timeData => {
+      this.allData.TimeSeries = timeData;
     });
-    this.actions.apiGetSeasonal(Number(this.input)).subscribe(data => {
-      this.seasonalData = data;
+    this.actions.apiGetSeasonal(this.input).subscribe(seasonData => {
+      this.allData.Seasonal = seasonData;
     });
-    this.actions.apiGetBoth(Number(this.input)).subscribe(data => {
-      this.bothData = data;
-      console.log('•••: ----------------------------------------------------------------');
-      console.log('•••: FillerComponent -> ngOnInit -> this.bothData', data);
-      console.log('•••: ----------------------------------------------------------------');
-    });
+    // this.getInfo();
 
 
   }
 
-
-
-  getInfo(seasonal, timeSeries) {
-
-    console.log(this.actions.seasonalProjection(seasonal, timeSeries));
+  getInfo(): any {
+    console.log('•••: --------------------------------------------------');
+    console.log('•••: FillerComponent -> this.allData', this.allData);
+    console.log('•••: --------------------------------------------------');
   }
+  // getInfo(input) {
+  //   let seasonalData: Seasonal;
+  //   let timeSeriesData: TimeSeries;
+  //   const allData: AllData = {
+  //     TimeSeries: timeSeriesData,
+  //     Seasonal: seasonalData
+  //   };
+
+  //   this.actions.apiGetTimeSeries(input).subscribe(timeData => {
+  //     allData.TimeSeries = timeData;
+  //   });
+
+  //   this.actions.apiGetSeasonal(input).subscribe(seasonData => {
+  //     allData.Seasonal = seasonData;
+  //     console.log(allData);
+
+  //   });
+  // }
 
 }

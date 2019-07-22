@@ -3,7 +3,10 @@ import { HttpErrorResponse, HttpHeaders, HttpClient, HttpResponse } from '@angul
 import { Observable, throwError } from 'rxjs';
 import { TimeSeries } from '../models/TimeSeries';
 import { Seasonal } from '../models/Seasonal';
+import { AllData } from '../models/AllData';
 import { ApiService } from './api.service';
+import { Time } from '@angular/common';
+import { all } from 'q';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +17,7 @@ export class ActionsService {
   // seasonalData: Seasonal;
   timeSeriesData: TimeSeries;
   seasonalData: Seasonal;
-
-  bothData: any = [
-    this.seasonalData,
-    this.timeSeriesData
-  ];
+  allData: AllData;
 
 
   constructor(private httpClient: HttpClient) { }
@@ -33,17 +32,6 @@ export class ActionsService {
     const id: number = input;
     return this.httpClient.get(this.timeseriesUrl + id);
   }
-  // Get both Seasonal and TimeSeries
-  apiGetBoth(input: number): Observable<any> {
-    this.apiGetSeasonal(input).subscribe(data => {
-      this.seasonalData = data;
-    });
-    this.apiGetTimeSeries(input).subscribe(data => {
-      this.timeSeriesData = data;
-    });
-
-    return this.bothData;
-    }
 
 
 
@@ -72,6 +60,9 @@ export class ActionsService {
 
   seasonalProjection(seasonal, timeSeries) {
     const seasonalData: Seasonal = seasonal;
+    console.log('•••: -----------------------------------------------------------------------');
+    console.log('•••: ActionsService -> seasonalProjection -> seasonalData', seasonalData);
+    console.log('•••: -----------------------------------------------------------------------');
     const week: any[] = seasonalData.weeklySeason;
     const hour: any[] = seasonalData.hourlySeason;
     const trendSlope: number = seasonalData.trendSlop;
@@ -98,7 +89,4 @@ export class ActionsService {
   }
 
 
-
-
-
-  }
+}
