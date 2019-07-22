@@ -15,6 +15,7 @@ import {
 import { ApiService } from '../../services/api.service';
 import { TimeSeries } from '../../models/TimeSeries';
 import { Seasonal } from '../../models/Seasonal';
+import { AllData } from '../../models/AllData';
 import moment from 'moment/moment';
 
 
@@ -29,41 +30,48 @@ export class TimeSeriesTableComponent implements OnInit {
   public chartAssist: ChartAssist = new ChartAssist(this.chart);
   public newArray: any = [];
   input: string;
-  searchNum: number = Number(this.input) || 5;
+  searchNum: number = Number(this.input);
 
 
-  @Input() apiData: TimeSeries; apiDataS: Seasonal;
+  @Input() timeSeriesData: TimeSeries; seasonalData: Seasonal;
+
+  allData: AllData = {
+    TimeSeries: this.timeSeriesData,
+    Seasonal: this.seasonalData
+  };
+
+
 
   constructor(private api: ApiService) {}
 
   public ngOnInit() {
 
     this.api.getSeasonal(this.searchNum).subscribe(data => {
-      this.apiDataS = data;
-      // console.log(`In ngOnInit w/ the api call. Data: ${JSON.stringify(this.apiDataS)}`);
+      this.allData.Seasonal = data;
     });
 
     // get call for the TimeSeries data
     this.api.getTS(this.searchNum).subscribe(data => {
-      this.apiData = data;
+      this.allData.TimeSeries = data;
 
-      return this.setChart(this.apiData, this.apiDataS);
+      return this.setChart(this.allData);
     });
 
   }
 
-  setChart(apiTS: TimeSeries, apiSeasonal: Seasonal) {
+  setChart(allData: AllData) {
 
     // providing chartAssist colors and markers to LineAccessors will share them with the line chart
-    const apiData = apiTS;
-    const apiDataS = apiSeasonal;
+    const apiData = allData;
+    const timeSeriesData = apiData.TimeSeries;
+    const seasonalData = apiData.Seasonal;
     const accessors = new LineAccessors(this.chartAssist.palette.standardColors, this.chartAssist.markers);
     const renderer = new LineRenderer();
     const scales: Scales = {
           x: new TimeScale(),
           y: new LinearScale(),
     };
-    const seriesSet: IChartSeries<ILineAccessors>[] = loadChart(apiData, apiDataS).map(d => ({
+    const seriesSet: IChartSeries<ILineAccessors>[] = loadChart(timeSeriesData, seasonalData).map(d => ({
           ...d,
           accessors,
           renderer,
@@ -74,18 +82,35 @@ export class TimeSeriesTableComponent implements OnInit {
     this.chartAssist.update(seriesSet);
   }
 
+  onSubmit() {
+    const userInput: number = Number(this.input);
+    console.log(userInput);
+    this.input = ' ',
+
+    this.api.getTS(userInput).subscribe(data => {
+      this.allData.TimeSeries = data;
+    });
+
+    this.api.getSeasonal(userInput).subscribe(data => {
+      this.allData.Seasonal = data;
+      return this.setChart(this.allData);
+    });
+
+  }
+
+
 }
 
 
   // This sorts the data into the correct formate.
 function loadChart(apiTS: TimeSeries, apiSeasonal: Seasonal) {
-  const format = "YYYY-MM-DDTHH:mm:ssZ";
-  const apiData: TimeSeries = apiTS;
-  const apiDataS: Seasonal = apiSeasonal;
-  const timeDataTS = apiData.timeArray;
-  const valueDataTS = apiData.valueArray;
+  const format = 'YYYY-MM-DDTHH:mm:ssZ';
+  const timeSeriesData: TimeSeries = apiTS;
+  const seasonalData: Seasonal = apiSeasonal;
+  const timeDataTS = timeSeriesData.timeArray;
+  const valueDataTS = timeSeriesData.valueArray;
   const newArray: any = [];
-
+  console.log('Chart has been updated');
   for (const [i, value] of timeDataTS.entries()) {
     newArray.push({
       x: moment(value, format),
@@ -93,17 +118,16 @@ function loadChart(apiTS: TimeSeries, apiSeasonal: Seasonal) {
     });
   }
 
-
   return [
     {
-        id: `${apiData.entityID}`,
-        name: `${apiData.valueName}`,
+        id: `${timeSeriesData.entityID}`,
+        name: `${timeSeriesData.valueName}`,
         data: newArray,
     },
     // {
     //   id: `Trend`,
     //   name: `Seasonal Trend Line`,
-    //   data: getSeasonal(apiDataS),
+    //   data: getSeasonal(seasonalData),
     // },
 
   ];
@@ -112,19 +136,19 @@ function loadChart(apiTS: TimeSeries, apiSeasonal: Seasonal) {
 
 /* Seasonal Chart data */
 function getSeasonal(api: Seasonal) {
-  const apiData: Seasonal = api;
+  const timeSeriesData: Seasonal = api;
   const weekArray: any = [];
   const trendArray: any = [];
-  const trendSlop: number = apiData.trendSlop;
-  const trendPoint: number = apiData.trendPoint;
+  const trendSlop: number = timeSeriesData.trendSlop;
+  const trendPoint: number = timeSeriesData.trendPoint;
 
-  for (const [i, value] of apiData.weeklySeason.entries()) {
+  for (const [i, value] of timeSeriesData.weeklySeason.entries()) {
     weekArray.push({
       x: i,
       y: value
     });
   }
-  for (const [i, value] of apiData.weeklySeason.entries()) {
+  for (const [i, value] of timeSeriesData.weeklySeason.entries()) {
     trendArray.push({
       x: value,
       y: (value * trendSlop) + trendPoint,

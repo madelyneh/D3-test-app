@@ -1,16 +1,17 @@
 <div>
-
-  <h1 class="item-header">
-    <a href="#" target="_blank" class="item-title" tooltip="processed">Seasonal Projection</a>
-  </h1>
-  <div class="chart-wrapper">
-
-    <div class="search-wrapper">
-      <form class="form" (ngSubmit)="onSubmit()">
-        <input type="text" name="title" [(ngModel)]="title" placeholder="Date">
-        <input type="submit" value="Search" class="btn">
-      </form>
+    <div class="item-header">
+      <h1>
+        <a href="#" target="_blank" class="item-title" tooltip="processed">TimeSeries Forecast</a>
+      </h1>
+      <div class="search-wrapper">
+        <form class="form" (ngSubmit)="onSubmit()">
+          <input type="text" name="input" [(ngModel)]="input" placeholder="ID of TimeSeries">
+          <input type="submit" value="Search" class="btn">
+        </form>
+      </div>
     </div>
+
+  <div class="chart-wrapper">
 
     <div class="nui-chart-layout">
       <div class="axis-label-left nui-text-small"><strong i18n>Left axis label</strong></div>
@@ -42,6 +43,5 @@
           </nui-legend>
       </div>
     </div>
-
   </div>
 </div>
