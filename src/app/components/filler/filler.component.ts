@@ -13,27 +13,36 @@ import { Seasonal } from '../../models/Seasonal';
 export class FillerComponent implements OnInit {
   input = '5';
   seasonalData: Seasonal;
+  timeSeriesData: TimeSeries;
   filteredArray: any[];
+  bothData: any;
 
-  constructor(public actions: ActionsService) { }
+  constructor(public actions: ActionsService) {
+  }
 
   ngOnInit() {
-    // this.actions.sortData(this.input).subscribe(data =>
-    //   this.filteredArray = data;
-    //   console.log(this.filteredArray);
-    // });
+
+    this.actions.apiGetTimeSeries(Number(this.input)).subscribe(data => {
+      this.timeSeriesData = data;
+    });
     this.actions.apiGetSeasonal(Number(this.input)).subscribe(data => {
       this.seasonalData = data;
-      this.getInfo(this.seasonalData);
+    });
+    this.actions.apiGetBoth(Number(this.input)).subscribe(data => {
+      this.bothData = data;
+      console.log('•••: ----------------------------------------------------------------');
+      console.log('•••: FillerComponent -> ngOnInit -> this.bothData', data);
+      console.log('•••: ----------------------------------------------------------------');
     });
 
 
   }
 
-  getInfo(input) {
-    console.log(input);
 
-    console.log(this.actions.seasonalProjection(input));
+
+  getInfo(seasonal, timeSeries) {
+
+    console.log(this.actions.seasonalProjection(seasonal, timeSeries));
   }
 
 }
