@@ -137,7 +137,7 @@ const rowToAddToEnd: AddRemoveTableColumnsModel = {
 export class AllAlertsTableComponent implements OnInit {
   public myForm: FormGroup;
   public availableColumns = ['issue', 'project', 'description', 'status', 'epic', 'assignee', 'reporter', 'actions'];
-  public displayedColumns = ['issue', 'project', 'description', 'status', 'epic', 'actions'];
+  public displayedColumns = ['issue', 'project', 'description', 'status', 'actions'];
   // full copy of displayed columns added to update columns only when updateTable() is called
   public displayedColumnsCopy = this.displayedColumns.slice();
   public newColumn: string;

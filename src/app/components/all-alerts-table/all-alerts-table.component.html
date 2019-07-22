@@ -1,7 +1,9 @@
 <div>
-  <h1 class="item-header" >
-      <a href="#" target="_blank" class="item-title" tooltip="processed">Alert Menu</a>
-  </h1>
+  <div  class="item-header" >
+    <h1>
+        <a href="#" target="_blank" class="item-title" tooltip="processed">Alert Menu</a>
+    </h1>
+  </div>
 
   <div class="nui-edge-definer nui-table__container" id="nui-demo-table-columns-add-remove">
       <section class="demo-options-section mb-3">
@@ -88,7 +90,7 @@
       </section>
       <table nui-table [dataSource]="dataSource" [reorderable]="true" [resizable]="true">
           <ng-container *ngFor="let column of displayedColumns" nuiColumnDef="{{column}}">
-              <th nui-header-cell *nuiHeaderCellDef class="text-capitalize"> {{column}}</th>
+              <th nui-header-cell *nuiHeaderCellDef class="text-capitalize" [style.width.px]=130> {{column}} </th>
               <td nui-cell *nuiCellDef="let element"
                   [class.overflow-visible]="columnIsActions(column)">
                   <span *ngIf="!columnIsActions(column)">{{element[column]}}</span>
