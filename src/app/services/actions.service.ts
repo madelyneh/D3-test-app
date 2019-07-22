@@ -58,35 +58,6 @@ export class ActionsService {
     return filteredArrays;
   }
 
-  seasonalProjection(seasonal, timeSeries) {
-    const seasonalData: Seasonal = seasonal;
-    console.log('•••: -----------------------------------------------------------------------');
-    console.log('•••: ActionsService -> seasonalProjection -> seasonalData', seasonalData);
-    console.log('•••: -----------------------------------------------------------------------');
-    const week: any[] = seasonalData.weeklySeason;
-    const hour: any[] = seasonalData.hourlySeason;
-    const trendSlope: number = seasonalData.trendSlop;
-    const trendPoint: number = seasonalData.trendPoint;
-
-    const timeSeriesData: TimeSeries = timeSeries;
-    console.log('•••: ---------------------------------------------------------------------------');
-    console.log('•••: ActionsService -> seasonalProjection -> timeSeriesData', timeSeriesData);
-    console.log('•••: ---------------------------------------------------------------------------');
-    const timeArray: any[] = timeSeries.timeArray;
-    const valueArray: any[] = timeSeries.valueArray;
-    const yValues: any = [];
-    const array: any[] = [1, 2, 3, 4];
-
-
-    // for (const i of array) {
-    //   yValues.push((trendSlope * value) + trendPoint +
-    //     ((value % hour.length) + (value % week.length)));
-
-    //   console.log(`INDEX: ${i}`);
-    // }
-
-
-  }
 
 
 }
