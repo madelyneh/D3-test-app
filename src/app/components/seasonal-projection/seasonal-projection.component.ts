@@ -28,7 +28,7 @@ export class SeasonalProjectionComponent implements OnInit {
   public chart = new Chart(new XYGrid());
   public chartAssist: ChartAssist = new ChartAssist(this.chart);
   input: string;
-  searchNum: number = Number(this.input) || 5;
+  searchNum: number = Number(this.input);
 
   @Input() timeSeriesData: TimeSeries; seasonalData: Seasonal;
 
@@ -76,14 +76,15 @@ export class SeasonalProjectionComponent implements OnInit {
   }
 
   onSubmit() {
-    const userInput = this.input;
+    const userInput: number = Number(this.input);
     console.log(userInput);
+    this.input = ' ',
 
-    this.api.getTS(this.searchNum).subscribe(data => {
+    this.api.getTS(userInput).subscribe(data => {
       this.allData.TimeSeries = data;
     });
 
-    this.api.getSeasonal(this.searchNum).subscribe(data => {
+    this.api.getSeasonal(userInput).subscribe(data => {
       this.allData.Seasonal = data;
       return this.setChart(this.allData);
     });
@@ -95,7 +96,7 @@ export class SeasonalProjectionComponent implements OnInit {
 /* Chart data */
 function loadChart(api: AllData) {
   const apiData: AllData = api;
-  const format = "YYYY-MM-DDTHH:mm:ssZ";
+  const format = 'YYYY-MM-DDTHH:mm:ssZ';
   const seasonal: Seasonal = apiData.Seasonal;
   const timeSeries: TimeSeries = apiData.TimeSeries;
   const valueArray: number[] = timeSeries.valueArray;
@@ -105,6 +106,7 @@ function loadChart(api: AllData) {
   const trendPoint: number = seasonal.trendPoint;
   const hour: any = seasonal.hourlySeason;
   const week: any = seasonal.weeklySeason;
+  console.log('Chart has been updated');
 
   for (const [i, value] of timeSeries.timeArray.entries()) {
     timeArray.push({
@@ -126,17 +128,15 @@ function loadChart(api: AllData) {
 
   return [
     {
-        id: `${seasonal.entityID}`,
-        name: `Trend Line): ${seasonal.entityID}`,
-        data: trendArray,
-    },
-    {
-      id: `TimeSeries: ${timeSeries.entityID}`,
-      name: `TimeSeries`,
+      id: `${timeSeries.entityID}`,
+      name: `TimeSeries: ${timeSeries.entityID}`,
       data: timeArray,
     },
-
-
+    {
+      id: `Forecast ${seasonal.entityID}`,
+      name: `Forecast: ${seasonal.entityID}`,
+      data: trendArray,
+    },
   ];
 }
 
