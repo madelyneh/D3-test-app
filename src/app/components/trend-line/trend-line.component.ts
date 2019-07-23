@@ -20,12 +20,11 @@ import { ActionsService } from '../../services/actions.service';
 import { AllData } from '../../models/AllData';
 
 @Component({
-  selector: 'app-sd-forecast',
-  templateUrl: './sd-forecast.component.html',
-  styleUrls: ['./sd-forecast.component.scss']
+  selector: 'app-trend-line',
+  templateUrl: './trend-line.component.html',
+  styleUrls: ['./trend-line.component.scss']
 })
-export class SDForecastComponent implements OnInit {
-
+export class TrendLineComponent implements OnInit {
   public chart = new Chart(new XYGrid());
   public chartAssist: ChartAssist = new ChartAssist(this.chart);
   input: string;
@@ -100,8 +99,7 @@ function loadChart(api: AllData) {
   const seasonal: Seasonal = apiData.Seasonal;
   const timeSeries: TimeSeries = apiData.TimeSeries;
   const valueArray: number[] = timeSeries.valueArray;
-  const highSDArray: any = [];
-  const lowSDArray: any = [];
+  const trendArray: any = [];
   const timeArray: any = [];
   const trendSlop: number = seasonal.trendSlop;
   const trendPoint: number = seasonal.trendPoint;
@@ -117,18 +115,12 @@ function loadChart(api: AllData) {
   }
 
   for (const [i, value] of timeSeries.timeArray.entries()) {
-    highSDArray.push({
+    trendArray.push({
       x: moment(value, format),
-      y: trendPoint + seasonal.strandardDeviation,
+      y: (trendSlop * valueArray[i]) + trendPoint,
     });
   }
 
-  for (const [i, value] of timeSeries.timeArray.entries()) {
-    lowSDArray.push({
-      x: moment(value, format),
-      y: trendPoint - seasonal.strandardDeviation,
-    });
-  }
 
 
   return [
@@ -138,16 +130,10 @@ function loadChart(api: AllData) {
       data: timeArray,
     },
     {
-      id: `Strandard Deviation H ${seasonal.entityID}`,
-      name: `Strandard Deviation H: ${seasonal.entityID}`,
-      data: highSDArray,
+      id: `Trend Line ${seasonal.entityID}`,
+      name: `Trend Line: ${seasonal.entityID}`,
+      data: trendArray,
     },
-    {
-      id: `Strandard Deviation L ${seasonal.entityID}`,
-      name: `Strandard Deviation  L: ${seasonal.entityID}`,
-      data: lowSDArray,
-    },
-
   ];
 }
 
