@@ -43,14 +43,13 @@ export class SeasonalProjectionComponent implements OnInit {
   public ngOnInit() {
 
 
-    this.api.getSeasonal(this.searchNum).subscribe(data => {
-      this.allData.Seasonal = data;
-    });
     this.api.getTS(this.searchNum).subscribe(data => {
       this.allData.TimeSeries = data;
-      return this.setChart(this.allData);
+      this.api.getSeasonal(this.searchNum).subscribe(dataS => {
+        this.allData.Seasonal = dataS;
+        return this.setChart(this.allData);
+      });
     });
-
 
   }
 
@@ -116,9 +115,10 @@ function loadChart(api: AllData) {
   }
 
   for (const [i, value] of timeSeries.timeArray.entries()) {
-
+    let time = moment(value, format);
+    let newTime = time.add(180, 'hour');
     trendArray.push({
-      x: moment(value, format),
+      x: newTime,
       y:
         (trendSlop * valueArray[i]) + trendPoint +
         ((hour[i % hour.length])  + (week[i % week.length]))
