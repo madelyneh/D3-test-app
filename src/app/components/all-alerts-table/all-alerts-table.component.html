@@ -29,14 +29,8 @@
             </button>
 
             <div class="search-wrapper">
-                <nui-search (cancel)="onCancel($event)" (search)="onSearch($event)" i18n-placeholder placeholder="Search"></nui-search>
-
-                <!-- <form class="form" (ngSubmit)="onSubmit()">
-                  <input type="text" name="input" [(ngModel)]="input" placeholder="Search">
-                  <input type="submit" value="Search" class="btn">
-                </form> -->
-
-              </div>
+              <nui-search (cancel)="onCancel($event)" (search)="onSearch($event)" i18n-placeholder placeholder="Search"></nui-search>
+            </div>
 
 <!-- Edit Columns Modal -->
           <ng-template #content let-close="close" let-dismiss="dismiss">

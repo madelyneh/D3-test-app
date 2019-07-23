@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output  } from '@angular/core';
+import { Component, OnInit, Input, Inject, EventEmitter, Output  } from '@angular/core';
 import {
   Chart,
   ChartAssist,
@@ -9,7 +9,8 @@ import {
   LineRenderer,
   Scales,
   TimeScale,
-  XYGrid
+  XYGrid,
+  ToastService
 } from '@solarwinds/nova-bits';
 import moment from 'moment/moment';
 import { ApiService } from '../../services/api.service';
@@ -39,7 +40,7 @@ export class SDForecastComponent implements OnInit {
     Seasonal: this.seasonalData
   };
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, @Inject(ToastService) public toastService: ToastService) {}
 
   public ngOnInit() {
 
@@ -74,10 +75,9 @@ export class SDForecastComponent implements OnInit {
     this.chartAssist.update(seriesSet);
   }
 
-  onSubmit() {
-    const userInput: number = Number(this.input);
+  public onSearch(value: string) {
+    const userInput: number = Number(value);
     console.log(userInput);
-    this.input = ' ',
 
     this.api.getTS(userInput).subscribe(data => {
       this.allData.TimeSeries = data;
@@ -87,6 +87,11 @@ export class SDForecastComponent implements OnInit {
       });
     });
   }
+
+  public onCancel(value: string) {
+    this.toastService.success({message: `OnCancel triggered. Current value is: ${value}`});
+}
+
 
 }
 

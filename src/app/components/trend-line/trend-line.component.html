@@ -3,11 +3,9 @@
       <h1>
         <a href="#" target="_blank" class="item-title" tooltip="processed">TimeSeries Trend Line</a>
       </h1>
+
       <div class="search-wrapper">
-        <form class="form" (ngSubmit)="onSubmit()">
-          <input type="text" name="input" [(ngModel)]="input" placeholder="ID of TimeSeries">
-          <input type="submit" value="Search" class="btn">
-        </form>
+          <nui-search (cancel)="onCancel($event)" (search)="onSearch($event)" i18n-placeholder placeholder="Search"></nui-search>
       </div>
     </div>
 

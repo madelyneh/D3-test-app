@@ -182,24 +182,24 @@ export class AllAlertsTableComponent implements OnInit {
       this.displayedColumns = this.displayedColumnsCopy.slice();
   }
 
-  public columnIsActions(column: string) {
-      return column === 'actions';
-  }
+  // public columnIsActions(column: string) {
+  //     return column === 'actions';
+  // }
 
-  public deleteRow(row: AddRemoveTableColumnsModel) {
-      this.dataSource.splice(this.dataSource.indexOf(row, 0), 1);
-      this.table.renderRows();
-  }
+  // public deleteRow(row: AddRemoveTableColumnsModel) {
+  //     this.dataSource.splice(this.dataSource.indexOf(row, 0), 1);
+  //     this.table.renderRows();
+  // }
 
-  public appendRow() {
-      this.dataSource.splice(this.dataSource.length, 0, rowToAddToEnd);
-      this.table.renderRows();
-  }
+  // public appendRow() {
+  //     this.dataSource.splice(this.dataSource.length, 0, rowToAddToEnd);
+  //     this.table.renderRows();
+  // }
 
-  public prependRow() {
-      this.dataSource.splice(0, 0, rowToAddToStart);
-      this.table.renderRows();
-  }
+  // public prependRow() {
+  //     this.dataSource.splice(0, 0, rowToAddToStart);
+  //     this.table.renderRows();
+  // }
 
   public onSearch(value: string) {
     this.toastService.success({message: `OnSearch triggered. Current value is: ${value}`});

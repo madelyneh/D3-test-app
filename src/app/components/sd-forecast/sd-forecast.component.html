@@ -4,10 +4,12 @@
         <a href="#" target="_blank" class="item-title" tooltip="processed">TimeSeries Standard Deviation</a>
       </h1>
       <div class="search-wrapper">
-        <form class="form" (ngSubmit)="onSubmit()">
+          <nui-search (cancel)="onCancel($event)" (search)="onSearch($event)" i18n-placeholder placeholder="Search"></nui-search>
+
+        <!-- <form class="form" (ngSubmit)="onSubmit()">
           <input type="text" name="input" [(ngModel)]="input" placeholder="ID of TimeSeries">
           <input type="submit" value="Search" class="btn">
-        </form>
+        </form> -->
       </div>
     </div>
 
