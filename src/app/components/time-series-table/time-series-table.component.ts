@@ -25,6 +25,7 @@ import moment from 'moment/moment';
   styleUrls: ['./time-series-table.component.scss'],
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class TimeSeriesTableComponent implements OnInit {
   public chart = new Chart(new XYGrid());
   public chartAssist: ChartAssist = new ChartAssist(this.chart);
@@ -40,21 +41,16 @@ export class TimeSeriesTableComponent implements OnInit {
     Seasonal: this.seasonalData
   };
 
-
-
   constructor(private api: ApiService) {}
 
   public ngOnInit() {
 
     this.api.getSeasonal(this.searchNum).subscribe(data => {
       this.allData.Seasonal = data;
-    });
-
-    // get call for the TimeSeries data
-    this.api.getTS(this.searchNum).subscribe(data => {
-      this.allData.TimeSeries = data;
-
-      return this.setChart(this.allData);
+      this.api.getTS(this.searchNum).subscribe(data2 => {
+        this.allData.TimeSeries = data2;
+        return this.setChart(this.allData);
+      });
     });
 
   }
@@ -89,18 +85,14 @@ export class TimeSeriesTableComponent implements OnInit {
 
     this.api.getTS(userInput).subscribe(data => {
       this.allData.TimeSeries = data;
+      this.api.getSeasonal(userInput).subscribe(data2 => {
+        this.allData.Seasonal = data2;
+        return this.setChart(this.allData);
+      });
     });
-
-    this.api.getSeasonal(userInput).subscribe(data => {
-      this.allData.Seasonal = data;
-      return this.setChart(this.allData);
-    });
-
   }
 
-
 }
-
 
   // This sorts the data into the correct formate.
 function loadChart(apiTS: TimeSeries, apiSeasonal: Seasonal) {
@@ -124,37 +116,5 @@ function loadChart(apiTS: TimeSeries, apiSeasonal: Seasonal) {
         name: `${timeSeriesData.valueName}`,
         data: newArray,
     },
-    // {
-    //   id: `Trend`,
-    //   name: `Seasonal Trend Line`,
-    //   data: getSeasonal(seasonalData),
-    // },
-
   ];
-
 }
-
-/* Seasonal Chart data */
-function getSeasonal(api: Seasonal) {
-  const timeSeriesData: Seasonal = api;
-  const weekArray: any = [];
-  const trendArray: any = [];
-  const trendSlop: number = timeSeriesData.trendSlop;
-  const trendPoint: number = timeSeriesData.trendPoint;
-
-  for (const [i, value] of timeSeriesData.weeklySeason.entries()) {
-    weekArray.push({
-      x: i,
-      y: value
-    });
-  }
-  for (const [i, value] of timeSeriesData.weeklySeason.entries()) {
-    trendArray.push({
-      x: value,
-      y: (value * trendSlop) + trendPoint,
-    });
-  }
-
-  return trendArray;
-}
-

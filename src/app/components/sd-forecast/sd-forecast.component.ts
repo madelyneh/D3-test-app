@@ -24,6 +24,7 @@ import { AllData } from '../../models/AllData';
   templateUrl: './sd-forecast.component.html',
   styleUrls: ['./sd-forecast.component.scss']
 })
+
 export class SDForecastComponent implements OnInit {
 
   public chart = new Chart(new XYGrid());
@@ -38,11 +39,9 @@ export class SDForecastComponent implements OnInit {
     Seasonal: this.seasonalData
   };
 
-
   constructor(private api: ApiService) {}
 
   public ngOnInit() {
-
 
     this.api.getTS(this.searchNum).subscribe(data => {
       this.allData.TimeSeries = data;
@@ -82,13 +81,11 @@ export class SDForecastComponent implements OnInit {
 
     this.api.getTS(userInput).subscribe(data => {
       this.allData.TimeSeries = data;
+      this.api.getSeasonal(userInput).subscribe(data2 => {
+        this.allData.Seasonal = data2;
+        return this.setChart(this.allData);
+      });
     });
-
-    this.api.getSeasonal(userInput).subscribe(data => {
-      this.allData.Seasonal = data;
-      return this.setChart(this.allData);
-    });
-
   }
 
 }
@@ -138,40 +135,15 @@ function loadChart(api: AllData) {
       data: timeArray,
     },
     {
-      id: `Strandard Deviation H ${seasonal.entityID}`,
-      name: `Strandard Deviation H: ${seasonal.entityID}`,
+      id: `Standard Deviation H ${seasonal.entityID}`,
+      name: `Standard Deviation H: ${seasonal.entityID}`,
       data: highSDArray,
     },
     {
-      id: `Strandard Deviation L ${seasonal.entityID}`,
-      name: `Strandard Deviation  L: ${seasonal.entityID}`,
+      id: `Standard Deviation L ${seasonal.entityID}`,
+      name: `Standard Deviation  L: ${seasonal.entityID}`,
       data: lowSDArray,
     },
 
   ];
-}
-
-function seasonalProjection(allData) {
-  const seasonalData: Seasonal = allData.Seasonal;
-  const week: any[] = seasonalData.weeklySeason;
-  const hour: any[] = seasonalData.hourlySeason;
-  const trendSlope: number = seasonalData.trendSlop;
-  const trendPoint: number = seasonalData.trendPoint;
-
-  const timeSeriesData: TimeSeries = allData.TimeSeries;
-  const timeArray: any[] = timeSeriesData.timeArray;
-  const valueArray: any[] = timeSeriesData.valueArray;
-  console.log('•••: -------------------------------------------------');
-  console.log('•••: seasonalProjection -> valueArray', valueArray);
-  console.log('•••: -------------------------------------------------');
-  const yValues: any = [];
-
-
-  // tslint:disable-next-line: prefer-for-of
-  for (let i = 0; i < valueArray.length; i++) {
-    yValues.push((trendSlope * valueArray[i]) + trendPoint +
-      ((valueArray[i] % hour.length) + (valueArray[i] % week.length)));
-  }
-
-
 }

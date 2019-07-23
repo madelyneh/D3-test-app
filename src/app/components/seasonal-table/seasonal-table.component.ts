@@ -24,15 +24,14 @@ import { AllData } from '../../models/AllData';
   templateUrl: './seasonal-table.component.html',
   styleUrls: ['./seasonal-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-
 })
+
 export class SeasonalTableComponent implements OnInit {
   public chart = new Chart(new XYGrid());
   public chartAssist: ChartAssist = new ChartAssist(this.chart);
   public newArray: any = [];
   input: string;
   searchNum: number = Number(this.input);
-
 
   @Input() timeSeriesData: TimeSeries; seasonalData: Seasonal;
 
@@ -41,21 +40,16 @@ export class SeasonalTableComponent implements OnInit {
     Seasonal: this.seasonalData
   };
 
-
-
   constructor(private api: ApiService) {}
 
   public ngOnInit() {
 
     this.api.getSeasonal(this.searchNum).subscribe(data => {
       this.allData.Seasonal = data;
-    });
-
-    // get call for the TimeSeries data
-    this.api.getTS(this.searchNum).subscribe(data => {
-      this.allData.TimeSeries = data;
-
-      return this.setChart(this.allData);
+      this.api.getTS(this.searchNum).subscribe(data2 => {
+        this.allData.TimeSeries = data2;
+        return this.setChart(this.allData);
+      });
     });
 
   }
@@ -90,18 +84,14 @@ export class SeasonalTableComponent implements OnInit {
 
     this.api.getTS(userInput).subscribe(data => {
       this.allData.TimeSeries = data;
+      this.api.getSeasonal(userInput).subscribe(data2 => {
+        this.allData.Seasonal = data2;
+        return this.setChart(this.allData);
+      });
     });
-
-    this.api.getSeasonal(userInput).subscribe(data => {
-      this.allData.Seasonal = data;
-      return this.setChart(this.allData);
-    });
-
   }
 
-
 }
-
 
   // This sorts the data into the correct formate.
 function loadChart(apiTS: TimeSeries, apiSeasonal: Seasonal) {
@@ -116,57 +106,18 @@ function loadChart(apiTS: TimeSeries, apiSeasonal: Seasonal) {
   console.log('Chart has been updated');
 
   for (const [i, value] of timeDataTS.entries()) {
-    newArray.push({
-      x: moment(value, format),
-      y: valueDataTS[i]
-    });
-  }
-  for (const [i, value] of timeDataTS.entries()) {
     newWave.push({
       x: i,
       y: (1 * Math.sin(i)) + (3 * Math.sin(i / 5))
     });
   }
 
-  // console.log(1 * (Math.sin(value / 1) + 3 * Math.sin(value / 5)));
-
-
   return [
-    // {
-    //   id: `${timeSeriesData.entityID}`,
-    //   name: `${timeSeriesData.valueName}`,
-    //   data: newArray,
-    // },
     {
       id: `Wave ${timeSeriesData.entityID}`,
       name: `Wave`,
       data: newWave,
     },
-
   ];
 
-}
-
-/* Seasonal Chart data */
-function getSeasonal(api: Seasonal) {
-  const timeSeriesData: Seasonal = api;
-  const weekArray: any = [];
-  const trendArray: any = [];
-  const trendSlop: number = timeSeriesData.trendSlop;
-  const trendPoint: number = timeSeriesData.trendPoint;
-
-  for (const [i, value] of timeSeriesData.weeklySeason.entries()) {
-    weekArray.push({
-      x: i,
-      y: value
-    });
-  }
-  for (const [i, value] of timeSeriesData.weeklySeason.entries()) {
-    trendArray.push({
-      x: value,
-      y: (value * trendSlop) + trendPoint,
-    });
-  }
-
-  return trendArray;
 }
