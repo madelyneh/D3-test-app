@@ -16,6 +16,7 @@ import { SeasonalProjectionComponent } from './components/seasonal-projection/se
 import { AllAlertsTableComponent } from './components/all-alerts-table/all-alerts-table.component';
 import { GridComponent } from './components/layout/grid/grid.component';
 import { FillerComponent } from './components/filler/filler.component';
+import { SDForecastComponent } from './components/sd-forecast/sd-forecast.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { FillerComponent } from './components/filler/filler.component';
     SeasonalProjectionComponent,
     AllAlertsTableComponent,
     GridComponent,
-    FillerComponent
+    FillerComponent,
+    SDForecastComponent
   ],
   imports: [
     BrowserModule,
