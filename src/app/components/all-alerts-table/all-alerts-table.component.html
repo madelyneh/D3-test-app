@@ -184,17 +184,7 @@
       <table nui-table [dataSource]="dataSource" [reorderable]="true" [resizable]="true">
           <ng-container *ngFor="let column of displayedColumns" nuiColumnDef="{{column}}">
               <th nui-header-cell *nuiHeaderCellDef class="text-capitalize" [style.width.px]=140> {{column}} </th>
-              <td nui-cell *nuiCellDef="let element"
-                  [class.overflow-visible]="columnIsActions(column)">
-                  <span *ngIf="!columnIsActions(column)">{{element[column]}}</span>
-                  <span *ngIf="columnIsActions(column)">
-                      <nui-menu icon="menu">
-                          <nui-menu-action (actionDone)="prependRow()" i18n>Add new row to the beginning</nui-menu-action>
-                          <nui-menu-action (actionDone)="appendRow()" i18n>Add new row to the end</nui-menu-action>
-                          <nui-menu-action (actionDone)="deleteRow(element)" i18n>Delete row</nui-menu-action>
-                      </nui-menu>
-                  </span>
-              </td>
+              <td nui-cell *nuiCellDef="let element">{{element[column]}}</td>
           </ng-container>
           <tr nui-header-row *nuiHeaderRowDef="displayedColumns; sticky: true"></tr>
           <tr nui-row *nuiRowDef="let row; columns: displayedColumns;" density="tiny"></tr>
