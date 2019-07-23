@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DialogService, TableComponent } from '@solarwinds/nova-bits';
+import { DialogService, TableComponent, ToastService } from '@solarwinds/nova-bits';
 import { AddRemoveTableColumnsModel } from '../../models/AddRemoveTableColumns';
 
 const ELEMENT_DATA: AddRemoveTableColumnsModel[] = [
@@ -145,8 +145,7 @@ export class AllAlertsTableComponent implements OnInit {
   @ViewChild(TableComponent) table: TableComponent<AddRemoveTableColumnsModel>;
 
   constructor(@Inject(DialogService) private dialogService: DialogService,
-              private formBuilder: FormBuilder) {
-  }
+              private formBuilder: FormBuilder, @Inject(ToastService) public toastService: ToastService) { }
 
   ngOnInit() {
       this.myForm = this.formBuilder.group({
@@ -201,7 +200,11 @@ export class AllAlertsTableComponent implements OnInit {
       this.dataSource.splice(0, 0, rowToAddToStart);
       this.table.renderRows();
   }
-  // ngOnInit() {
-  // }
 
+  public onSearch(value: string) {
+    this.toastService.success({message: `OnSearch triggered. Current value is: ${value}`});
+  }
+  public onCancel(value: string) {
+      this.toastService.success({message: `OnCancel triggered. Current value is: ${value}`});
+  }
 }

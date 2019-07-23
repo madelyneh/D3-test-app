@@ -28,6 +28,15 @@
                     i18n>
             </button>
 
+            <div class="search-wrapper">
+                <nui-search (cancel)="onCancel($event)" (search)="onSearch($event)" i18n-placeholder placeholder="Search"></nui-search>
+
+                <!-- <form class="form" (ngSubmit)="onSubmit()">
+                  <input type="text" name="input" [(ngModel)]="input" placeholder="Search">
+                  <input type="submit" value="Search" class="btn">
+                </form> -->
+
+              </div>
 
 <!-- Edit Columns Modal -->
           <ng-template #content let-close="close" let-dismiss="dismiss">
@@ -43,6 +52,17 @@
                           </nui-message>
 
                           <h5 i18n>Action Items</h5>
+                          <ul>
+                            <li>
+                                <a href="#" target="_blank" class="" tooltip="processed">Item 1</a>
+                            </li>
+                            <li>
+                                <a href="#" target="_blank" class="" tooltip="processed">Item 2</a>
+                            </li>
+                            <li>
+                                <a href="#" target="_blank" class="" tooltip="processed">Item 3</a>
+                            </li>
+                          </ul>
                           <nui-divider></nui-divider>
 
                           <h5 i18n>Edit Columns</h5>
