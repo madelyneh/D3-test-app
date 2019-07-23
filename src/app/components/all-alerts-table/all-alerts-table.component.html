@@ -32,7 +32,7 @@
               <nui-search (cancel)="onCancel($event)" (search)="onSearch($event)" i18n-placeholder placeholder="Search"></nui-search>
             </div>
 
-<!-- Edit Columns Modal -->
+<!-- Menu Modal -->
           <ng-template #content let-close="close" let-dismiss="dismiss">
               <nui-dialog-header i18n-title title="Menu" (closed)="close()"></nui-dialog-header>
               <form [formGroup]="myForm">
@@ -48,18 +48,18 @@
                           <h5 i18n>Action Items</h5>
                           <ul>
                             <li>
-                                <a href="#" target="_blank" class="" tooltip="processed">Item 1</a>
+                                <a href="#" target="_blank" class="" tooltip="processed">Item 1: Manage Anomalies</a>
                             </li>
                             <li>
-                                <a href="#" target="_blank" class="" tooltip="processed">Item 2</a>
+                                <a href="#" target="_blank" class="" tooltip="processed">Item 2: View in PerfStack</a>
                             </li>
                             <li>
-                                <a href="#" target="_blank" class="" tooltip="processed">Item 3</a>
+                                <a href="#" target="_blank" class="" tooltip="processed">Item 3: Link to a management page</a>
                             </li>
                           </ul>
                           <nui-divider></nui-divider>
 
-                          <h5 i18n>Edit Columns</h5>
+                          <h5 i18n>Columns Displayed</h5>
                           <nui-checkbox-group id="nui-demo-table-add-remove-checkboxes"
                                               [values]="displayedColumnsCopy"
                                               (valuesChange)="columnsChanged($event)"
@@ -75,12 +75,6 @@
 
                           <div class="modal-buttons">
                             <div class="button-wrapper" >
-                              <button nui-button
-                                        type="button"
-                                        (click)="close('Cancel')"
-                                        i18n>
-                                    Cancel
-                                </button>
                                 <button nui-button
                                         type="button"
                                         id="nui-demo-table-columns-add-remove-submit-btn"
@@ -108,6 +102,7 @@
               </form>
           </ng-template>
 
+<!-- Filter Modal -->
           <ng-template #filtercontent let-close="close" let-dismiss="dismiss">
               <nui-dialog-header i18n-title title="Filter" (closed)="close()"></nui-dialog-header>
               <form [formGroup]="myForm">
