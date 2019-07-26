@@ -7,9 +7,21 @@ h1 {
 }
  form {
    display: inline-block !important;
+   width: 100%;
  }
 
 // Multiple Elements
+#button-wrapper {
+  float: right;
+
+  .nui-button {
+    border-width: 0 !important;
+  }
+}
+.button-wrapper {
+  float: right;
+}
+
 
 
 // ****Class****
@@ -41,6 +53,15 @@ padding: .2rem;
   text-align: center;
 }
 
+.nui button {
+  margin: .09rem !important;
+
+}
+.modal-buttons {
+    width: 100%;
+    float: right;
+    margin-bottom: .3rem;
+}
 
 // ****ID****
 
@@ -50,4 +71,8 @@ padding: .2rem;
 
 #page-title {
   margin-top: .8rem !important;
+}
+
+#button-wrapper {
+  float: right;
 }

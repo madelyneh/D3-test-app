@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, Inject, EventEmitter, Output  } from '@angular/core';
 import {
     Chart,
     ChartAssist,
@@ -10,7 +10,8 @@ import {
     LineRenderer,
     Scales,
     TimeScale,
-    XYGrid
+    XYGrid,
+    ToastService
 } from '@solarwinds/nova-bits';
 import { ApiService } from '../../services/api.service';
 import { TimeSeries } from '../../models/TimeSeries';
@@ -25,6 +26,7 @@ import moment from 'moment/moment';
   styleUrls: ['./time-series-table.component.scss'],
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class TimeSeriesTableComponent implements OnInit {
   public chart = new Chart(new XYGrid());
   public chartAssist: ChartAssist = new ChartAssist(this.chart);
@@ -40,21 +42,16 @@ export class TimeSeriesTableComponent implements OnInit {
     Seasonal: this.seasonalData
   };
 
-
-
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, @Inject(ToastService) public toastService: ToastService) {}
 
   public ngOnInit() {
 
     this.api.getSeasonal(this.searchNum).subscribe(data => {
       this.allData.Seasonal = data;
-    });
-
-    // get call for the TimeSeries data
-    this.api.getTS(this.searchNum).subscribe(data => {
-      this.allData.TimeSeries = data;
-
-      return this.setChart(this.allData);
+      this.api.getTS(this.searchNum).subscribe(data2 => {
+        this.allData.TimeSeries = data2;
+        return this.setChart(this.allData);
+      });
     });
 
   }
@@ -82,25 +79,24 @@ export class TimeSeriesTableComponent implements OnInit {
     this.chartAssist.update(seriesSet);
   }
 
-  onSubmit() {
-    const userInput: number = Number(this.input);
+  public onSearch(value: string) {
+    const userInput: number = Number(value);
     console.log(userInput);
-    this.input = ' ',
 
     this.api.getTS(userInput).subscribe(data => {
       this.allData.TimeSeries = data;
+      this.api.getSeasonal(userInput).subscribe(data2 => {
+        this.allData.Seasonal = data2;
+        return this.setChart(this.allData);
+      });
     });
-
-    this.api.getSeasonal(userInput).subscribe(data => {
-      this.allData.Seasonal = data;
-      return this.setChart(this.allData);
-    });
-
   }
 
+  public onCancel(value: string) {
+    this.toastService.success({message: `OnCancel triggered. Current value is: ${value}`});
+  }
 
 }
-
 
   // This sorts the data into the correct formate.
 function loadChart(apiTS: TimeSeries, apiSeasonal: Seasonal) {
@@ -124,37 +120,5 @@ function loadChart(apiTS: TimeSeries, apiSeasonal: Seasonal) {
         name: `${timeSeriesData.valueName}`,
         data: newArray,
     },
-    // {
-    //   id: `Trend`,
-    //   name: `Seasonal Trend Line`,
-    //   data: getSeasonal(seasonalData),
-    // },
-
   ];
-
 }
-
-/* Seasonal Chart data */
-function getSeasonal(api: Seasonal) {
-  const timeSeriesData: Seasonal = api;
-  const weekArray: any = [];
-  const trendArray: any = [];
-  const trendSlop: number = timeSeriesData.trendSlop;
-  const trendPoint: number = timeSeriesData.trendPoint;
-
-  for (const [i, value] of timeSeriesData.weeklySeason.entries()) {
-    weekArray.push({
-      x: i,
-      y: value
-    });
-  }
-  for (const [i, value] of timeSeriesData.weeklySeason.entries()) {
-    trendArray.push({
-      x: value,
-      y: (value * trendSlop) + trendPoint,
-    });
-  }
-
-  return trendArray;
-}
-

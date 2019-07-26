@@ -17,6 +17,7 @@ import { AllAlertsTableComponent } from './components/all-alerts-table/all-alert
 import { GridComponent } from './components/layout/grid/grid.component';
 import { FillerComponent } from './components/filler/filler.component';
 import { SDForecastComponent } from './components/sd-forecast/sd-forecast.component';
+import { TrendLineComponent } from './components/trend-line/trend-line.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { SDForecastComponent } from './components/sd-forecast/sd-forecast.compon
     AllAlertsTableComponent,
     GridComponent,
     FillerComponent,
-    SDForecastComponent
+    SDForecastComponent,
+    TrendLineComponent
   ],
   imports: [
     BrowserModule,

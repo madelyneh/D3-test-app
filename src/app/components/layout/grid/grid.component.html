@@ -29,16 +29,27 @@
         </nui-sheet>
       </nui-sheet-group>
 
-      <!-- Filler Component -->
       <nui-sheet-group sheetsType="separate">
         <nui-sheet [fitContent]="true">
           <nui-card>
             <div class="nui-demo-nui-card__block-element">
-              <app-filler></app-filler>
-            </div>
+                <app-seasonal-table></app-seasonal-table>
+              </div>
           </nui-card>
         </nui-sheet>
       </nui-sheet-group>
+
+      <!-- Filler Component -->
+      <nui-sheet-group sheetsType="separate">
+          <nui-sheet [fitContent]="true">
+            <nui-card>
+              <div class="nui-demo-nui-card__block-element">
+                  <app-filler></app-filler>
+                </div>
+            </nui-card>
+          </nui-sheet>
+        </nui-sheet-group>
+
 
     </nui-sheet-group>
 
@@ -63,22 +74,33 @@
           <nui-sheet [fitContent]="true">
             <nui-card>
               <div class="nui-demo-nui-card__block-element">
-                  <app-seasonal-table></app-seasonal-table>
+                  <app-sd-forecast></app-sd-forecast>
               </div>
             </nui-card>
           </nui-sheet>
       </nui-sheet-group>
 
-      <!-- Filler Component -->
       <nui-sheet-group sheetsType="separate">
         <nui-sheet [fitContent]="true">
           <nui-card>
             <div class="nui-demo-nui-card__block-element">
-              <app-filler></app-filler>
+              <app-trend-line></app-trend-line>
             </div>
           </nui-card>
         </nui-sheet>
       </nui-sheet-group>
+
+      <!-- Filler Component -->
+      <nui-sheet-group sheetsType="separate">
+          <nui-sheet [fitContent]="true">
+            <nui-card>
+              <div class="nui-demo-nui-card__block-element">
+                <app-filler></app-filler>
+              </div>
+            </nui-card>
+          </nui-sheet>
+        </nui-sheet-group>
+
 
     </nui-sheet-group>
 

@@ -16,15 +16,17 @@ import moment from 'moment/moment';
 import { ApiService } from '../../services/api.service';
 import { Seasonal } from '../../models/Seasonal';
 import { TimeSeries } from '../../models/TimeSeries';
+import { DataModel } from '../../models/DataModel';
+import { ActionsService } from '../../services/actions.service';
 import { AllData } from '../../models/AllData';
 
 @Component({
-  selector: 'app-seasonal-projection',
-  templateUrl: './seasonal-projection.component.html',
-  styleUrls: ['./seasonal-projection.component.scss']
+  selector: 'app-trend-line',
+  templateUrl: './trend-line.component.html',
+  styleUrls: ['./trend-line.component.scss']
 })
 
-export class SeasonalProjectionComponent implements OnInit {
+export class TrendLineComponent implements OnInit {
   public chart = new Chart(new XYGrid());
   public chartAssist: ChartAssist = new ChartAssist(this.chart);
   input: string;
@@ -48,7 +50,6 @@ export class SeasonalProjectionComponent implements OnInit {
         return this.setChart(this.allData);
       });
     });
-
   }
 
   setChart(allData: AllData) {
@@ -87,8 +88,7 @@ export class SeasonalProjectionComponent implements OnInit {
 
   public onCancel(value: string) {
     this.toastService.success({message: `OnCancel triggered. Current value is: ${value}`});
-}
-
+  }
 
 }
 
@@ -110,20 +110,14 @@ function loadChart(api: AllData) {
   for (const [i, value] of timeSeries.timeArray.entries()) {
     timeArray.push({
       x: moment(value, format),
-      y: timeSeries.valueArray[i]
+      y: valueArray[i]
     });
   }
-
   for (const [i, value] of timeSeries.timeArray.entries()) {
-    let time = moment(value, format);
-    let newTime = time.add(180, 'hour');
     trendArray.push({
-      x: newTime,
-      y:
-        (trendSlop * valueArray[i]) + trendPoint +
-        ((hour[i % hour.length])  + (week[i % week.length]))
+      x: moment(value, format),
+      y: (trendSlop * valueArray[i]) + trendPoint,
     });
-
   }
 
   return [
@@ -133,8 +127,8 @@ function loadChart(api: AllData) {
       data: timeArray,
     },
     {
-      id: `Forecast ${seasonal.entityID}`,
-      name: `Forecast: ${seasonal.entityID}`,
+      id: `Trend Line ${seasonal.entityID}`,
+      name: `Trend Line: ${seasonal.entityID}`,
       data: trendArray,
     },
   ];

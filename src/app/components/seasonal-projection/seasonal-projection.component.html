@@ -3,20 +3,19 @@
       <h1>
         <a href="#" target="_blank" class="item-title" tooltip="processed">TimeSeries Forecast</a>
       </h1>
+
       <div class="search-wrapper">
-        <form class="form" (ngSubmit)="onSubmit()">
-          <input type="text" name="input" [(ngModel)]="input" placeholder="ID of TimeSeries">
-          <input type="submit" value="Search" class="btn">
-        </form>
+        <nui-search (cancel)="onCancel($event)" (search)="onSearch($event)" i18n-placeholder placeholder="Search"></nui-search>
       </div>
+
     </div>
 
   <div class="chart-wrapper">
 
     <div class="nui-chart-layout">
-      <div class="axis-label-left nui-text-small"><strong i18n>Left axis label</strong></div>
-      <div class="axis-label-right nui-text-small"><strong i18n>Right axis label</strong></div>
-      <div class="axis-label-bottom nui-text-small"><strong i18n>Bottom axis label</strong></div>
+      <div class="axis-label-left nui-text-small"><strong i18n>Reading</strong></div>
+      <div class="axis-label-right nui-text-small"><strong i18n></strong></div>
+      <div class="axis-label-bottom nui-text-small"><strong i18n>Time</strong></div>
       <div class="chart">
         <nui-chart class="w-100" [chart]="chart"></nui-chart>
       </div>
